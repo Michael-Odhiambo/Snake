@@ -10,6 +10,10 @@ import javafx.scene.control.Label;
 import javafx.application.Platform;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.AudioClip;
+import java.io.File;
 
 
 public class Snake extends Application {
@@ -24,6 +28,12 @@ public class Snake extends Application {
     private SnakeBody snake;
     private DIRECTION snakesDirection;
     private Apple apple;
+
+    String path = "/home/michael/Desktop/succeeded-message-tone.mp3";
+
+    private Media eatingSound = new Media( new File(path).toURI().toString() );
+    private MediaPlayer player = new MediaPlayer( eatingSound );
+    private AudioClip audioClip = new AudioClip( new File(path).toURI().toString() );
 
     private enum DIRECTION { LEFT, RIGHT, UP, DOWN };
 
@@ -120,6 +130,7 @@ public class Snake extends Application {
                     snake.removeTailSegment();
                 }
                 else {
+                    audioClip.play();
                     eraseApple();
                     generateApple();
                 }
