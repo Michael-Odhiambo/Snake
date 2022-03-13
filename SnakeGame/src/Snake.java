@@ -10,11 +10,6 @@ import javafx.scene.control.Label;
 import javafx.application.Platform;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.AudioClip;
-import java.io.File;
-
 
 public class Snake extends Application {
     private final int CANVAS_WIDTH = 800;
@@ -25,19 +20,15 @@ public class Snake extends Application {
     private SnakeCanvas snakeCanvas;
     private GraphicsContext drawingArea;
     private Label score;
+    private int currentScore;
     private SnakeBody snake;
     private DIRECTION snakesDirection;
     private Apple apple;
-
-    String path = "/home/michael/Desktop/succeeded-message-tone.mp3";
-
-    private Media eatingSound = new Media( new File(path).toURI().toString() );
-    private MediaPlayer player = new MediaPlayer( eatingSound );
-    private AudioClip audioClip = new AudioClip( new File(path).toURI().toString() );
-
+    
     private enum DIRECTION { LEFT, RIGHT, UP, DOWN };
 
     public void start( Stage stage ) {
+        currentScore = 0;
         setupMainWindow( stage );
         showMainWindow( stage );
     }
@@ -53,9 +44,8 @@ public class Snake extends Application {
     }
 
     private void keyPressed( KeyEvent event ) {
-        if ( event.getCode() == KeyCode.UP && snakesDirection != DIRECTION.DOWN ) {
+        if ( event.getCode() == KeyCode.UP && snakesDirection != DIRECTION.DOWN )
             snakesDirection = DIRECTION.UP;
-        }
         else if ( event.getCode() == KeyCode.DOWN && snakesDirection != DIRECTION.UP )
             snakesDirection = DIRECTION.DOWN;
         else if ( event.getCode() == KeyCode.LEFT && snakesDirection != DIRECTION.RIGHT )
@@ -72,6 +62,7 @@ public class Snake extends Application {
 
     private Label setupScore() {
         score = new Label( "Your Score: " );
+        score.setText(String.valueOf(currentScore));
         return score;
     }
 
@@ -94,7 +85,6 @@ public class Snake extends Application {
 
         createSnake();
         generateApple();
-        drawApple();
         new AnimationThread().start();
     }
 
@@ -110,9 +100,6 @@ public class Snake extends Application {
         int xPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_WIDTH );
         int yPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_HEIGHT );
         apple = new Apple( xPosition, yPosition, SEGMENT_SIZE );
-    }
-
-    private void drawApple() {
         apple.draw( drawingArea );
     }
 
@@ -124,21 +111,22 @@ public class Snake extends Application {
 
         public void run() {
             while ( true ) {
-                if ( gameIsOver() )
+                if ( gameIsOver() ) {
+                    SnakeSoundEffectsPlayer.playGameOverTone();
                     break;
+                }
                 if ( !snake.hasEatenApple( apple ) ) {
                     snake.removeTailSegment();
                 }
                 else {
-                    audioClip.play();
+                    SnakeSoundEffectsPlayer.playEatingAppleSoundEffect();
+                    updateScore();
                     eraseApple();
                     generateApple();
                 }
                 moveTheSnakeAccordingToTheDirection();
                 Platform.runLater( () -> {
-                    snakeCanvas.draw();
-                    snake.draw( drawingArea );
-                    apple.draw( drawingArea );
+                    updateFrame();
                 } );
                 try {
                     Thread.sleep( 100 );
@@ -156,6 +144,10 @@ public class Snake extends Application {
         return false;
     }
 
+    private void updateScore() {
+        currentScore++;
+    }
+
     private void eraseApple() {
         snakeCanvas.erase( apple );
     }
@@ -169,5 +161,12 @@ public class Snake extends Application {
             snake.moveLeft();
         else
             snake.moveRight();
+    }
+
+    private void updateFrame() {
+        score.setText( String.valueOf( currentScore ) );
+        snakeCanvas.draw();
+        snake.draw( drawingArea );
+        apple.draw( drawingArea );
     }
 }
