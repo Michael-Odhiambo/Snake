@@ -71,10 +71,8 @@ public class SnakeBody {
 
     public boolean hasEatenApple( Apple apple ) {
         Segment snakesHead = getHead();
-        if ( snakesHead.getXPosition() == apple.getXPosition() && snakesHead.getYPosition() == apple.getYPosition() ) {
-            System.out.println( "Apple eaten." );
+        if ( snakesHead.getXPosition() == apple.getXPosition() && snakesHead.getYPosition() == apple.getYPosition() )
             return true;
-        }
         return false;
     }
 

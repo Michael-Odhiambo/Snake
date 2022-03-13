@@ -1,5 +1,8 @@
 
 import javafx.application.Application;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -63,7 +66,8 @@ public class Snake extends Application {
 
     private Label setupScore() {
         score = new Label( "Your Score: " );
-        score.setText(String.valueOf(currentScore));
+        score.setFont( Font.font("Verdana", FontWeight.BOLD, FontPosture.REGULAR, 20 ) );
+        score.setText(String.valueOf( currentScore) );
         return score;
     }
 
@@ -98,8 +102,8 @@ public class Snake extends Application {
     }
 
     private void generateApple() {
-        int xPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_WIDTH );
-        int yPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_HEIGHT );
+        int xPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_WIDTH - 1 );
+        int yPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_HEIGHT - 1 );
         apple = new Apple( xPosition, yPosition, SEGMENT_SIZE );
         apple.draw( drawingArea );
     }
@@ -165,7 +169,7 @@ public class Snake extends Application {
     }
 
     private void updateFrame() {
-        score.setText( String.valueOf( currentScore ) );
+        score.setText( "Your Score: " + currentScore );
         snakeCanvas.draw();
         snake.draw( drawingArea );
         apple.draw( drawingArea );
