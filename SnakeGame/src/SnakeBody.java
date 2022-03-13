@@ -16,11 +16,11 @@ public class SnakeBody {
         this.yPositionOfHead = yPositionOfHead;
         this.segmentSize = segmentSize;
         segments = new ArrayList<>();
-        addTenSegmentsToSnakeBody();
+        addThreeSegmentsToSnakeBody();
     }
 
-    private void addTenSegmentsToSnakeBody() {
-        for ( int segment = 0; segment < 10; segment++ ) {
+    private void addThreeSegmentsToSnakeBody() {
+        for ( int segment = 0; segment < 3; segment++ ) {
             segments.add( new Segment( xPositionOfHead - segment, yPositionOfHead, segmentSize ) );
         }
     }
@@ -78,9 +78,11 @@ public class SnakeBody {
         return false;
     }
 
-    public boolean hasCollidedIntoTheWall( ) {
+    public boolean hasCollidedIntoTheWall( int cellWidth, int cellHeight ) {
         Segment snakesHead = getHead();
-
+        if ( snakesHead.getXPosition() == -1 || snakesHead.getXPosition() == cellWidth ||
+                snakesHead.getYPosition() == -1 || snakesHead.getYPosition() == cellHeight )
+            return true;
         return false;
     }
 

@@ -140,7 +140,7 @@ public class Snake extends Application {
     private boolean gameIsOver() {
         if ( snake.hasCollidedOnItself() )
             return true;
-        else if ( snake.hasCollidedIntoTheWall() )
+        else if ( snake.hasCollidedIntoTheWall( CELL_WIDTH, CELL_HEIGHT ) )
             return true;
         return false;
     }
