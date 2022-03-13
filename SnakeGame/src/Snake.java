@@ -14,9 +14,10 @@ import javafx.scene.input.KeyCode;
 public class Snake extends Application {
     private final int CANVAS_WIDTH = 800;
     private final int CANVAS_HEIGHT = 600;
-    private final int CELL_WIDTH = 20;
-    private final int CELL_HEIGHT = 20;
-    private final int SEGMENT_SIZE = 10;
+    private final int CELL_SIZE = 10;
+    private final int CELL_WIDTH = CANVAS_WIDTH/CELL_SIZE;
+    private final int CELL_HEIGHT = CANVAS_HEIGHT/CELL_SIZE;
+    private final int SEGMENT_SIZE = CELL_SIZE;
     private SnakeCanvas snakeCanvas;
     private GraphicsContext drawingArea;
     private Label score;
@@ -24,7 +25,7 @@ public class Snake extends Application {
     private SnakeBody snake;
     private DIRECTION snakesDirection;
     private Apple apple;
-    
+
     private enum DIRECTION { LEFT, RIGHT, UP, DOWN };
 
     public void start( Stage stage ) {
