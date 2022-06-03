@@ -15,8 +15,8 @@ class Segment {
 
     void draw( GraphicsContext drawingArea ) {
         drawingArea.setFill( Color.GREEN );
-        drawingArea.fillRect( ( xPosition*segmentSize ) - 1 , ( yPosition*segmentSize - 1 ) , segmentSize-1,
-                segmentSize - 1 );
+        drawingArea.fillRect( ( xPosition*segmentSize ),yPosition*segmentSize, segmentSize-1,
+                segmentSize-1 );
     }
 
     double getXPosition() {

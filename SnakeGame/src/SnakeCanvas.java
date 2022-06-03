@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 
 public class SnakeCanvas extends Canvas {
     private static final Color BACKGROUND_COLOR = Color.BLACK;
-
     private GraphicsContext drawingArea = getGraphicsContext2D();
 
     public SnakeCanvas( double canvasWidth, double canvasHeight ) {

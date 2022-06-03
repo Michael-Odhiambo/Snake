@@ -32,9 +32,13 @@ public class Snake extends Application {
     private enum DIRECTION { LEFT, RIGHT, UP, DOWN };
 
     public void start( Stage stage ) {
-        currentScore = 0;
+        initializeScore();
         setupMainWindow( stage );
         showMainWindow( stage );
+    }
+
+    private void initializeScore() {
+        currentScore = 0;
     }
 
     private void setupMainWindow( Stage stage ) {
@@ -89,7 +93,7 @@ public class Snake extends Application {
         stage.show();
 
         createSnake();
-        generateApple();
+        generateNewApple();
         new AnimationThread().start();
     }
 
@@ -101,7 +105,7 @@ public class Snake extends Application {
         snake.draw( drawingArea );
     }
 
-    private void generateApple() {
+    private void generateNewApple() {
         int xPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_WIDTH - 1 );
         int yPosition = RandomNumberGenerator.generateRandomInteger( 0, CELL_HEIGHT - 1 );
         apple = new Apple( xPosition, yPosition, SEGMENT_SIZE );
@@ -127,7 +131,7 @@ public class Snake extends Application {
                     SnakeSoundEffectsPlayer.playEatingAppleSoundEffect();
                     updateScore();
                     eraseApple();
-                    generateApple();
+                    generateNewApple();
                 }
                 moveTheSnakeAccordingToTheDirection();
                 Platform.runLater( () -> {

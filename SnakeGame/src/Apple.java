@@ -15,7 +15,7 @@ public class Apple {
 
     public void draw( GraphicsContext drawingArea ) {
         drawingArea.setFill( Color.RED );
-        drawingArea.fillRect( ( xPosition*appleSize ) - 1, ( yPosition*appleSize ) - 1, appleSize - 1,
+        drawingArea.fillRect( xPosition*appleSize, yPosition*appleSize, appleSize - 1,
                 appleSize - 1 );
     }
 
